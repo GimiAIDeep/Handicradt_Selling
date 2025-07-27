@@ -1,0 +1,2099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtisanHub - Handicraft Marketplace</title>
+    <style>
+        /* Global Styles */
+        :root {
+            --primary: #6d4c41;
+            --secondary: #8d6e63;
+            --accent: #d7ccc8;
+            --light: #efebe9;
+            --dark: #3e2723;
+            --text: #5d4037;
+            --highlight: #a1887f;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Animation Keyframes */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes wave {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            50% { transform: rotate(0deg); }
+            75% { transform: rotate(-5deg); }
+            100% { transform: rotate(0deg); }
+        }
+        
+        @keyframes colorChange {
+            0% { color: var(--primary); }
+            50% { color: var(--accent); }
+            100% { color: var(--primary); }
+        }
+        
+        @keyframes shine {
+            0% { background-position: -100px; }
+            100% { background-position: 200px; }
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--dark));
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        header.scrolled {
+            padding: 0.5rem 0;
+            background: rgba(109, 76, 65, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: var(--accent);
+            animation: pulse 2s infinite;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 2rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        nav ul li a:hover {
+            color: var(--accent);
+            animation: wave 0.5s ease;
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s;
+        }
+        
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .mobile-menu-btn:hover {
+            transform: rotate(90deg);
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 2rem;
+            margin-top: 0;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: slideInLeft 1s ease-out;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            animation: slideInRight 1s ease-out;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--dark);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            margin: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn:hover {
+            background: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .btn-shine {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-shine::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: all 0.5s;
+        }
+        
+        .btn-shine:hover::after {
+            left: 100%;
+        }
+        
+        /* About Section */
+        .section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            display: inline-block;
+            position: relative;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+            animation: pulse 2s infinite;
+        }
+        
+        .about-content {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 3rem;
+        }
+        
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+            animation: slideInLeft 1s ease-out;
+        }
+        
+        .about-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+        
+        .about-text p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            animation: slideInRight 1s ease-out;
+        }
+        
+        .about-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .about-image img:hover {
+            transform: scale(1.03) rotate(1deg);
+        }
+        
+        /* Features Section */
+        .features {
+            background: var(--accent);
+            padding: 6rem 2rem;
+        }
+        
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+        
+        .feature-card:nth-child(1) { animation-delay: 0.2s; }
+        .feature-card:nth-child(2) { animation-delay: 0.4s; }
+        .feature-card:nth-child(3) { animation-delay: 0.6s; }
+        .feature-card:nth-child(4) { animation-delay: 0.8s; }
+        .feature-card:nth-child(5) { animation-delay: 1.0s; }
+        .feature-card:nth-child(6) { animation-delay: 1.2s; }
+        
+        .feature-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+        }
+        
+        .feature-card:hover .feature-icon {
+            animation: float 2s infinite;
+            color: var(--secondary);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        /* Categories Section */
+        .categories {
+            padding: 6rem 2rem;
+            background: white;
+        }
+        
+        .categories-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .category-card {
+            position: relative;
+            height: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            transform: scale(0.95);
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+        
+        .category-card:nth-child(1) { animation-delay: 0.1s; }
+        .category-card:nth-child(2) { animation-delay: 0.2s; }
+        .category-card:nth-child(3) { animation-delay: 0.3s; }
+        .category-card:nth-child(4) { animation-delay: 0.4s; }
+        .category-card:nth-child(5) { animation-delay: 0.5s; }
+        .category-card:nth-child(6) { animation-delay: 0.6s; }
+        
+        .category-card:hover {
+            transform: scale(1.03) rotate(1deg);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .category-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .category-card:hover .category-img {
+            transform: scale(1.1);
+        }
+        
+        .category-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            padding: 2rem 1rem 1rem;
+            color: white;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.3s;
+        }
+        
+        .category-card:hover .category-overlay {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .category-overlay h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* How It Works Section */
+        .how-it-works {
+            background: var(--light);
+            padding: 6rem 2rem;
+        }
+        
+        .steps-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .steps-container::before {
+            content: '';
+            position: absolute;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
+            left: 50%;
+            transform: translateX(-50%);
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .step {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s forwards;
+        }
+        
+        .step:nth-child(1) { animation-delay: 0.2s; }
+        .step:nth-child(2) { animation-delay: 0.4s; }
+        .step:nth-child(3) { animation-delay: 0.6s; }
+        .step:nth-child(4) { animation-delay: 0.8s; }
+        .step:nth-child(5) { animation-delay: 1.0s; }
+        .step:nth-child(6) { animation-delay: 1.2s; }
+        
+        .step-content {
+            width: 45%;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .step-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .step-content::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .step:nth-child(odd) .step-content {
+            text-align: right;
+        }
+        
+        .step:nth-child(odd) .step-content::after {
+            right: -30px;
+        }
+        
+        .step:nth-child(even) .step-content {
+            margin-left: auto;
+        }
+        
+        .step:nth-child(even) .step-content::after {
+            left: -30px;
+        }
+        
+        .step-number {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+            transition: all 0.3s;
+        }
+        
+        .step:hover .step-number {
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 0 0 5px rgba(109, 76, 65, 0.2);
+        }
+        
+        .step:nth-child(odd) .step-number {
+            right: -20px;
+        }
+        
+        .step:nth-child(even) .step-number {
+            left: -20px;
+        }
+        
+        /* Testimonials Section */
+        .testimonials {
+            padding: 6rem 2rem;
+            background: white;
+        }
+        
+        .testimonials-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .testimonials-slider {
+            position: relative;
+            overflow: hidden;
+            padding: 2rem 0;
+        }
+        
+        .testimonials-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        
+        .testimonial-card {
+            min-width: 100%;
+            padding: 0 1rem;
+            box-sizing: border-box;
+        }
+        
+        .testimonial-content {
+            background: var(--light);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .testimonial-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .testimonial-content::before {
+            content: '"';
+            position: absolute;
+            font-size: 5rem;
+            color: var(--accent);
+            top: -20px;
+            left: 10px;
+            opacity: 0.3;
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .author-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .testimonial-content:hover .author-img {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .author-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .author-info p {
+            color: var(--highlight);
+            font-size: 0.9rem;
+        }
+        
+        .slider-nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            background: var(--accent);
+            border-radius: 50%;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .slider-dot.active {
+            background: var(--primary);
+            transform: scale(1.2);
+        }
+        
+        /* Artists Section */
+        .artists {
+            padding: 6rem 2rem;
+            background: var(--light);
+        }
+        
+        .artists-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .artists-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .artist-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+        
+        .artist-card:nth-child(1) { animation-delay: 0.2s; }
+        .artist-card:nth-child(2) { animation-delay: 0.4s; }
+        .artist-card:nth-child(3) { animation-delay: 0.6s; }
+        .artist-card:nth-child(4) { animation-delay: 0.8s; }
+        
+        .artist-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .artist-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .artist-card:hover .artist-img {
+            transform: scale(1.1);
+        }
+        
+        .artist-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .artist-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .artist-info p {
+            color: var(--highlight);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .artist-social {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .artist-social a {
+            color: var(--primary);
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+        
+        .artist-social a:hover {
+            color: var(--dark);
+            transform: translateY(-3px);
+            animation: pulse 0.5s;
+        }
+        
+        /* Gallery Section */
+        .gallery {
+            padding: 6rem 2rem;
+            background: white;
+        }
+        
+        .gallery-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            grid-auto-rows: 200px;
+            grid-auto-flow: dense;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            transform: scale(0.95);
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+        
+        .gallery-item:nth-child(1) { animation-delay: 0.1s; }
+        .gallery-item:nth-child(2) { animation-delay: 0.2s; }
+        .gallery-item:nth-child(3) { animation-delay: 0.3s; }
+        .gallery-item:nth-child(4) { animation-delay: 0.4s; }
+        .gallery-item:nth-child(5) { animation-delay: 0.5s; }
+        .gallery-item:nth-child(6) { animation-delay: 0.6s; }
+        .gallery-item:nth-child(7) { animation-delay: 0.7s; }
+        .gallery-item:nth-child(8) { animation-delay: 0.8s; }
+        
+        .gallery-item:hover {
+            transform: scale(1.02) rotate(1deg);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .gallery-item:nth-child(3n) {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+        
+        .gallery-overlay i {
+            color: white;
+            font-size: 2rem;
+            transition: all 0.3s;
+        }
+        
+        .gallery-item:hover .gallery-overlay i {
+            animation: pulse 1s infinite;
+        }
+        
+        /* Contact Section */
+        .contact {
+            padding: 6rem 2rem;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+        }
+        
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .contact-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+        }
+        
+        .contact-info {
+            flex: 1;
+            min-width: 300px;
+            animation: slideInLeft 1s ease-out;
+        }
+        
+        .contact-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .contact-info h3::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background: var(--accent);
+            bottom: -10px;
+            left: 0;
+            animation: pulse 2s infinite;
+        }
+        
+        .contact-details {
+            margin-top: 2rem;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+        }
+        
+        .contact-item:hover {
+            transform: translateX(5px);
+        }
+        
+        .contact-icon {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-right: 1rem;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .contact-item:hover .contact-icon {
+            background: var(--accent);
+            color: var(--dark);
+            transform: rotate(15deg);
+        }
+        
+        .contact-form {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 10px;
+            animation: slideInRight 1s ease-out;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 5px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(215, 204, 200, 0.3);
+        }
+        
+        .form-control::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 2rem 2rem;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+        
+        .footer-col h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 2px;
+            background: var(--accent);
+            bottom: -8px;
+            left: 0;
+            border-radius: 2px;
+        }
+        
+        .footer-col p {
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+            transform: translateX(5px);
+            color: var(--accent);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background: var(--accent);
+            color: var(--dark);
+            transform: translateY(-3px) rotate(10deg);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 999;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .back-to-top:hover {
+            background: var(--secondary);
+            transform: translateY(-5px) rotate(360deg);
+        }
+        
+        .back-to-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 1001;
+        }
+        
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            transform: scale(0.8);
+            transition: transform 0.3s;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+        
+        .modal-img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .modal-content:hover .modal-img {
+            transform: scale(1.02);
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 1;
+        }
+        
+        .modal-close:hover {
+            background: var(--primary);
+            transform: rotate(90deg);
+        }
+        
+        .modal-body {
+            padding: 2rem;
+            overflow-y: auto;
+            max-height: calc(90vh - 400px);
+        }
+        
+        .modal-body h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .modal-body p {
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Loading Animation */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+        
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loader-circle {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--accent);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: rotate 1s linear infinite;
+        }
+        
+        /* Floating Elements */
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .floating-element {
+            position: absolute;
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.1;
+            animation: float 10s infinite ease-in-out;
+        }
+        
+        .floating-element:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%236d4c41" d="M50 0 L100 50 L50 100 L0 50 Z"/></svg>');
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+            animation-duration: 15s;
+        }
+        
+        .floating-element:nth-child(2) {
+            width: 80px;
+            height: 80px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle fill="%238d6e63" cx="50" cy="50" r="50"/></svg>');
+            top: 60%;
+            left: 80%;
+            animation-delay: 2s;
+            animation-duration: 12s;
+        }
+        
+        .floating-element:nth-child(3) {
+            width: 120px;
+            height: 120px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23d7ccc8" d="M50 0 L100 100 L0 100 Z"/></svg>');
+            top: 30%;
+            left: 70%;
+            animation-delay: 4s;
+            animation-duration: 18s;
+        }
+        
+        .floating-element:nth-child(4) {
+            width: 60px;
+            height: 60px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="%23a1887f" width="100" height="100" rx="20"/></svg>');
+            top: 80%;
+            left: 20%;
+            animation-delay: 6s;
+            animation-duration: 14s;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .steps-container::before {
+                left: 40px;
+            }
+            
+            .step {
+                flex-direction: column;
+            }
+            
+            .step-content {
+                width: calc(100% - 80px);
+                margin-left: 80px;
+                text-align: left !important;
+            }
+            
+            .step-content::after {
+                left: -30px !important;
+                right: auto !important;
+            }
+            
+            .step-number {
+                left: 20px !important;
+                right: auto !important;
+            }
+            
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            nav {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background: var(--dark);
+                padding: 1rem;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+                transform: translateY(-150%);
+                opacity: 0;
+                transition: all 0.3s;
+            }
+            
+            nav.active {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            
+            nav ul {
+                flex-direction: column;
+            }
+            
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section {
+                padding: 4rem 1rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .btn {
+                padding: 0.6rem 1.5rem;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery-item:nth-child(3n) {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Animation -->
+    <div class="loader" id="loader">
+        <div class="loader-circle"></div>
+    </div>
+
+    <!-- Floating Background Elements -->
+    <div class="floating-elements">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+    </div>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-hands-helping"></i>
+                <span>ArtisanHub</span>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav id="nav">
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#categories">Categories</a></li>
+                    <li><a href="#artists">Artists</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Discover Unique Handicrafts</h1>
+            <p>Connecting talented artisans with appreciative buyers across India. Explore authentic handmade treasures that tell a story.</p>
+            <div>
+                <a href="#categories" class="btn btn-primary btn-shine">Explore Now</a>
+                <a href="#contact" class="btn btn-shine">Join As Artist</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+        <div class="section-title">
+            <h2>About ArtisanHub</h2>
+        </div>
+        <div class="about-content">
+            <div class="about-text">
+                <h3>Empowering Artisans, Preserving Heritage</h3>
+                <p>ArtisanHub is a revolutionary platform dedicated to preserving India's rich handicraft heritage while providing sustainable livelihoods for traditional artisans. We bridge the gap between skilled craftsmen and conscious buyers who value authenticity and craftsmanship.</p>
+                <p>Our mission is to create a fair-trade ecosystem where artisans receive proper recognition and compensation for their exquisite work, while buyers gain access to genuine, high-quality handicrafts directly from the creators.</p>
+                <p>With over 5,000 registered artisans from across India, we represent the diversity of Indian handicrafts - from Kashmir's Pashmina to Kerala's coir products, from Rajasthan's blue pottery to Assam's bamboo crafts.</p>
+                <a href="#how-it-works" class="btn btn-primary btn-shine">Learn How It Works</a>
+            </div>
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1583744946564-b52d01e2da64?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Artisan at work">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="features-container">
+            <div class="section-title">
+                <h2>Why Choose ArtisanHub</h2>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h3>Authentic Products</h3>
+                    <p>Every item is verified for authenticity and comes with an artisan story card detailing its making process and cultural significance.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-rupee-sign"></i>
+                    </div>
+                    <h3>Fair Pricing</h3>
+                    <p>Artisans set their own prices, ensuring they receive fair compensation while eliminating middlemen exploitation.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <h3>Nationwide Delivery</h3>
+                    <p>We deliver to every corner of India with careful packaging to ensure your handicrafts arrive in perfect condition.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <h3>Artisan Support</h3>
+                    <p>We provide training, tools, and market access to help artisans grow their businesses sustainably.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-recycle"></i>
+                    </div>
+                    <h3>Eco-Friendly</h3>
+                    <p>All our products are made with natural, sustainable materials using traditional techniques that respect the environment.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>Dedicated Support</h3>
+                    <p>Our customer care team is available to assist you with any queries about products, orders, or artisans.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories" id="categories">
+        <div class="categories-container">
+            <div class="section-title">
+                <h2>Explore Categories</h2>
+            </div>
+            <div class="categories-grid">
+                <div class="category-card" onclick="openModal('Textiles', 'Indian textiles represent a vibrant tapestry of cultures, with each region boasting its unique weaving techniques, patterns, and motifs. From Banarasi silks to Kutch embroidery, our textile collection showcases the best of India\'s fabric arts.', 'https://images.unsplash.com/photo-1536924940846-227afb31e2a5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+                    <img src="https://images.unsplash.com/photo-1536924940846-227afb31e2a5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Textiles" class="category-img">
+                    <div class="category-overlay">
+                        <h3>Textiles</h3>
+                        <p>Traditional weaves & embroideries</p>
+                    </div>
+                </div>
+                <div class="category-card" onclick="openModal('Pottery', 'Indian pottery dates back to the Indus Valley Civilization and continues to thrive today. Our collection includes blue pottery from Jaipur, terracotta from Bengal, black pottery from Manipur, and many other regional specialties.', 'https://images.unsplash.com/photo-1586771107445-d3ca888129ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+                    <img src="https://images.unsplash.com/photo-1586771107445-d3ca888129ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Pottery" class="category-img">
+                    <div class="category-overlay">
+                        <h3>Pottery</h3>
+                        <p>Earthenware & ceramic arts</p>
+                    </div>
+                </div>
+                <div class="category-card" onclick="openModal('Jewelry', 'Indian jewelry-making is an ancient art form that combines precious metals, stones, and traditional techniques. Our artisans create exquisite pieces using methods like Kundan, Meenakari, Thewa, and Filigree work.', 'https://images.unsplash.com/photo-1602173574767-37ac01994b2a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+                    <img src="https://images.unsplash.com/photo-1602173574767-37ac01994b2a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Jewelry" class="category-img">
+                    <div class="category-overlay">
+                        <h3>Jewelry</h3>
+                        <p>Handcrafted adornments</p>
+                    </div>
+                </div>
+                <div class="category-card" onclick="openModal('Woodwork', 'Indian woodcraft showcases the country\'s rich carpentry traditions, from Kashmir\'s walnut wood carvings to Kerala\'s rosewood furniture. Each piece reflects the artisan\'s skill and the region\'s unique aesthetic sensibilities.', 'https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+                    <img src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Woodwork" class="category-img">
+                    <div class="category-overlay">
+                        <h3>Woodwork</h3>
+                        <p>Carved masterpieces</p>
+                    </div>
+                </div>
+                <div class="category-card" onclick="openModal('Metalwork', 'Indian metal crafts include Bidriware from Hyderabad, Dhokra tribal metal casting, Moradabad metalware, and Thanjavur bronze icons. These ancient techniques produce stunning decorative and utilitarian items.', 'https://images.unsplash.com/photo-1595437193395-a5d6a7f0f29b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+                    <img src="https://images.unsplash.com/photo-1595437193395-a5d6a7f0f29b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Metalwork" class="category-img">
+                    <div class="category-overlay">
+                        <h3>Metalwork</h3>
+                        <p>Bronze, brass & silver crafts</p>
+                    </div>
+                </div>
+                <div class="category-card" onclick="openModal('Bamboo & Cane', 'Bamboo and cane crafts are integral to many Indian tribal communities. Our collection includes furniture, baskets, home decor, and utility items that showcase the versatility and sustainability of these materials.', 'https://images.unsplash.com/photo-1605001011156-cb0b4b1b4b1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+                    <img src="https://images.unsplash.com/photo-1605001011156-cb0b4b1b4b1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Bamboo & Cane" class="category-img">
+                    <div class="category-overlay">
+                        <h3>Bamboo & Cane</h3>
+                        <p>Sustainable creations</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="steps-container">
+            <div class="section-title">
+                <h2>How ArtisanHub Works</h2>
+            </div>
+            <div class="step">
+                <div class="step-content">
+                    <h3>Artisan Registration</h3>
+                    <p>Artisans create their profile by providing details about their craft, experience, and uploading samples of their work. Our team verifies each artisan to ensure authenticity.</p>
+                </div>
+                <div class="step-number">1</div>
+            </div>
+            <div class="step">
+                <div class="step-content">
+                    <h3>Product Listing</h3>
+                    <p>Verified artisans list their products with detailed descriptions, high-quality images, and pricing. They can choose to sell ready-made items or take custom orders.</p>
+                </div>
+                <div class="step-number">2</div>
+            </div>
+            <div class="step">
+                <div class="step-content">
+                    <h3>Buyer Discovery</h3>
+                    <p>Buyers browse through our curated collections, search by craft type or region, and discover unique handicrafts. Each product page includes the artisan's story.</p>
+                </div>
+                <div class="step-number">3</div>
+            </div>
+            <div class="step">
+                <div class="step-content">
+                    <h3>Secure Transaction</h3>
+                    <p>Buyers place orders through our secure payment gateway. Funds are held in escrow until delivery confirmation to protect both buyers and artisans.</p>
+                </div>
+                <div class="step-number">4</div>
+            </div>
+            <div class="step">
+                <div class="step-content">
+                    <h3>Shipping & Delivery</h3>
+                    <p>Artisans package their creations with care, and our logistics partners ensure safe delivery across India. Buyers receive tracking updates.</p>
+                </div>
+                <div class="step-number">5</div>
+            </div>
+            <div class="step">
+                <div class="step-content">
+                    <h3>Feedback & Support</h3>
+                    <p>After delivery, buyers can leave reviews and ratings. Our support team is always available to assist with any queries or concerns.</p>
+                </div>
+                <div class="step-number">6</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="testimonials-container">
+            <div class="section-title">
+                <h2>What People Say</h2>
+            </div>
+            <div class="testimonials-slider">
+                <div class="testimonials-track" id="testimonialsTrack">
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <div class="testimonial-text">
+                                <p>"ArtisanHub has transformed my small pottery business. I've connected with buyers across India who truly appreciate my craft. The platform is easy to use, and I receive payments promptly. My income has doubled in just six months!"</p>
+                            </div>
+                            <div class="testimonial-author">
+                                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Rekha Patel" class="author-img">
+                                <div class="author-info">
+                                    <h4>Rekha Patel</h4>
+                                    <p>Pottery Artist, Gujarat</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <div class="testimonial-text">
+                                <p>"As an interior designer, I'm always looking for unique pieces for my clients. ArtisanHub has become my go-to source for authentic Indian handicrafts. The quality is exceptional, and my clients love knowing the story behind each piece."</p>
+                            </div>
+                            <div class="testimonial-author">
+                                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Arjun Mehta" class="author-img">
+                                <div class="author-info">
+                                    <h4>Arjun Mehta</h4>
+                                    <p>Interior Designer, Mumbai</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <div class="testimonial-text">
+                                <p>"I've been weaving Banarasi saris for 30 years, but struggled to reach customers beyond my local market. ArtisanHub has helped me showcase my work to a national audience. The platform's fair pricing policy ensures I get proper value for my labor-intensive creations."</p>
+                            </div>
+                            <div class="testimonial-author">
+                                <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Fatima Begum" class="author-img">
+                                <div class="author-info">
+                                    <h4>Fatima Begum</h4>
+                                    <p>Textile Weaver, Varanasi</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slider-nav" id="sliderNav">
+                    <div class="slider-dot active" onclick="goToSlide(0)"></div>
+                    <div class="slider-dot" onclick="goToSlide(1)"></div>
+                    <div class="slider-dot" onclick="goToSlide(2)"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Artists Section -->
+    <section class="artists" id="artists">
+        <div class="artists-container">
+            <div class="section-title">
+                <h2>Featured Artisans</h2>
+            </div>
+            <div class="artists-grid">
+                <div class="artist-card">
+                    <img src="https://images.unsplash.com/photo-1593104547480-1ae0a5e89a1e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Rajesh Kumar" class="artist-img">
+                    <div class="artist-info">
+                        <h3>Rajesh Kumar</h3>
+                        <p>Madhubani Painting Artist, Bihar</p>
+                        <div class="artist-social">
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="artist-card">
+                    <img src="https://images.unsplash.com/photo-1583864697784-a0efc8379f70?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Laxmi Devi" class="artist-img">
+                    <div class="artist-info">
+                        <h3>Laxmi Devi</h3>
+                        <p>Block Printing Expert, Rajasthan</p>
+                        <div class="artist-social">
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="artist-card">
+                    <img src="https://images.unsplash.com/photo-1580894732444-8ecded7900cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Abdul Kareem" class="artist-img">
+                    <div class="artist-info">
+                        <h3>Abdul Kareem</h3>
+                        <p>Bidriware Craftsman, Karnataka</p>
+                        <div class="artist-social">
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="artist-card">
+                    <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Meena Sharma" class="artist-img">
+                    <div class="artist-info">
+                        <h3>Meena Sharma</h3>
+                        <p>Kashmiri Shawl Weaver</p>
+                        <div class="artist-social">
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery" id="gallery">
+        <div class="gallery-container">
+            <div class="section-title">
+                <h2>Handicraft Gallery</h2>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item" onclick="openModal('Blue Pottery', 'Jaipur\'s famous blue pottery, made from quartz stone powder, is known for its distinctive blue and white designs. This art form came to India via Mughal influences from Persia.', 'https://images.unsplash.com/photo-1580894732930-0bab4e1c7f03?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+                    <img src="https://images.unsplash.com/photo-1580894732930-0bab4e1c7f03?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Blue Pottery">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('Pashmina Shawl', 'Kashmiri Pashmina shawls are woven from the fine undercoat of Himalayan goats. Each shawl takes weeks to months to complete, with the finest ones being so delicate they can pass through a ring.', 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+                    <img src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Pashmina Shawl">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('Dhokra Art', 'Dhokra is a 4000-year-old tribal metal casting technique using the lost-wax method. Practiced by indigenous communities in Central and Eastern India, each piece is unique.', 'https://images.unsplash.com/photo-1595437193395-a5d6a7f0f29b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+                    <img src="https://images.unsplash.com/photo-1595437193395-a5d6a7f0f29b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Dhokra Art">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('Kalamkari', 'Kalamkari is an ancient hand-painted or block-printed textile art from Andhra Pradesh. Using natural dyes, artists create intricate mythological scenes and floral patterns.', 'https://images.unsplash.com/photo-1583744946564-b52d01e2da64?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+                    <img src="https://images.unsplash.com/photo-1583744946564-b52d01e2da64?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Kalamkari">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('Warli Painting', 'Warli paintings originate from the Warli tribe of Maharashtra. These simple yet profound paintings use basic geometric shapes to depict daily life and nature.', 'https://images.unsplash.com/photo-1580894732444-8ecded7900cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+                    <img src="https://images.unsplash.com/photo-1580894732444-8ecded7900cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Warli Painting">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('Channapatna Toys', 'These vibrant lacquered wooden toys from Karnataka are made using traditional techniques that are over 200 years old. The non-toxic colors make them safe for children.', 'https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+                    <img src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Channapatna Toys">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('Assam Silk', 'Assam produces three unique varieties of silk - Muga (golden), Eri (peace silk), and Pat. Muga silk is particularly prized for its natural golden sheen and durability.', 'https://images.unsplash.com/photo-1536924940846-227afb31e2a5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+                    <img src="https://images.unsplash.com/photo-1536924940846-227afb31e2a5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Assam Silk">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('Kashmiri Papier Mache', 'This delicate art form involves painting intricate designs on objects made from paper pulp. The vibrant colors and gold detailing make these pieces highly sought after.', 'https://images.unsplash.com/photo-1580894732444-8ecded7900cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+                    <img src="https://images.unsplash.com/photo-1580894732444-8ecded7900cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Kashmiri Papier Mache">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="contact-container">
+            <div class="section-title">
+                <h2>Get In Touch</h2>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Connect With Us</h3>
+                    <p>Whether you're an artisan looking to join our platform or a buyer with questions about our products, we'd love to hear from you.</p>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h4>Our Office</h4>
+                                <p>123 Craft Street, Artisan Colony, New Delhi - 110001</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div>
+                                <h4>Call Us</h4>
+                                <p>+91 98765 43210 (Artisan Support)</p>
+                                <p>+91 87654 32109 (Customer Care)</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4>Email Us</h4>
+                                <p>artisans@artisanhub.com</p>
+                                <p>support@artisanhub.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <h3>Send a Message</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" class="form-control" placeholder="Enter your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Your Email</label>
+                            <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" class="form-control" placeholder="Enter subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Your Message</label>
+                            <textarea id="message" class="form-control" placeholder="Enter your message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-shine">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>ArtisanHub</h3>
+                <p>Connecting India's talented artisans with appreciative buyers worldwide. Preserving heritage, empowering creators.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#categories">Categories</a></li>
+                    <li><a href="#artists">Artisans</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Categories</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Textiles</a></li>
+                    <li><a href="#">Pottery</a></li>
+                    <li><a href="#">Jewelry</a></li>
+                    <li><a href="#">Woodwork</a></li>
+                    <li><a href="#">Metalwork</a></li>
+                    <li><a href="#">Bamboo & Cane</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Newsletter</h3>
+                <p>Subscribe to our newsletter for updates on new artisans, products, and special offers.</p>
+                <form id="newsletterForm">
+                    <div class="form-group">
+                        <input type="email" class="form-control" placeholder="Your email address" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-shine">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 ArtisanHub. All Rights Reserved. | Designed with ❤️ for Indian Handicrafts</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <img src="" alt="" class="modal-img" id="modalImg">
+            <div class="modal-body">
+                <h3 id="modalTitle"></h3>
+                <p id="modalText"></p>
+                <a href="#contact" class="btn btn-primary btn-shine">Contact About This Craft</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Loading Animation
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('loader').classList.add('hidden');
+            }, 1500);
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const nav = document.getElementById('nav');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            nav.classList.toggle('active');
+            mobileMenuBtn.innerHTML = nav.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Smooth Scrolling for Anchor Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                if (this.getAttribute('href') === '#') return;
+                
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    if (nav.classList.contains('active')) {
+                        nav.classList.remove('active');
+                        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                    }
+                }
+            });
+        });
+        
+        // Header Scroll Effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Back to Top Button
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('active');
+            } else {
+                backToTop.classList.remove('active');
+            }
+        });
+        
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Testimonial Slider
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.testimonial-card');
+        const dots = document.querySelectorAll('.slider-dot');
+        const track = document.getElementById('testimonialsTrack');
+        
+        function showSlide(index) {
+            currentSlide = index;
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+        }
+        
+        function goToSlide(index) {
+            showSlide(index);
+        }
+        
+        // Auto slide change
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }, 5000);
+        
+        // Modal
+        const modal = document.getElementById('modal');
+        const modalClose = document.getElementById('modalClose');
+        const modalImg = document.getElementById('modalImg');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalText = document.getElementById('modalText');
+        
+        function openModal(title, text, imgSrc) {
+            modalTitle.textContent = title;
+            modalText.textContent = text;
+            modalImg.src = imgSrc;
+            modalImg.alt = title;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        modalClose.addEventListener('click', () => {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+        
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Form Submission
+        const contactForm = document.getElementById('contactForm');
+        const newsletterForm = document.getElementById('newsletterForm');
+        
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you for your message! We will get back to you soon.');
+            contactForm.reset();
+        });
+        
+        newsletterForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you for subscribing to our newsletter!');
+            newsletterForm.reset();
+        });
+        
+        // Animation on Scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.about-text, .about-image, .feature-card, .category-card, .step-content, .artist-card, .gallery-item');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                
+                if (elementPosition < screenPosition) {
+                    element.style.animationPlayState = 'running';
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+
+        // Hover effects for buttons
+        const buttons = document.querySelectorAll('.btn');
+        buttons.forEach(button => {
+            button.addEventListener('mouseenter', () => {
+                button.classList.add('btn-hover');
+            });
+            button.addEventListener('mouseleave', () => {
+                button.classList.remove('btn-hover');
+            });
+        });
+
+        // Floating elements animation
+        const floatingElements = document.querySelectorAll('.floating-element');
+        floatingElements.forEach((el, index) => {
+            el.style.animationDelay = `${index * 2}s`;
+        });
+    </script>
+</body>
+</html>
